@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+	<script>
+		$(()=>{
+			consol.log("page loaded");
+			$('#bookid').blur(()=>{
+				console.log("blur event ocurred");
+				let input = {bookid: $('#bookid').val()}
+				let ajaxparameters = {
+					data : input ,
+					url: 'http://localhost:90/getdetails',
+					type: 'get',
+					datatype: 'json',
+					success:(datafromserver) => {
+						if (datafromserver.status === true){
+							console.log("data fetched successfully");
+							$('#bookname').val(datafromserver.book.bookname);
+							$('#price').val(datafromserver.book.price);
+							$('msg').text("bookid is found");
+							$('#update').prop("disabled",false);
+
+						}
+						else{
+							$('#bookname').val("");
+							$('#price').val("");
+							$('#msg').text("bookid is not found");
+
+						}
+					},
+					error:(errorfromserver)=> {
+						console.log("error ocurred"+errorfromserver);
+					}
+
+				}
+				$.ajax(ajaxparameters);
+			});
+			$('#insert').click(()=> {
+				console.log("insert button clicked");
+				let input = { bookid: $('bookid').val,bookname:$('bookname').val(),price:$('price').val()}
+				let ajaxparameters = {
+					data : input ,
+					url: 'http://localhost:90/getdetails',
+					type: 'get',
+					datatype: 'json',
+					success:(datafromserver)=> {
+						if(datafromserver.status === true){
+							console.log("insert successfully");
+						
+							
+							$('msg').text("inserted");
+		
+						}
+					},
+					error:(errorfromserver)=>{
+						console.log(errorfromserver);
+						$('msg').text("error");
+					}
+				}
+				$.ajax(ajaxparameters);
+			
+
+			})
+			('#update').click(()=> {
+				console.log("uddate clicked");
+				let input = { bookid: $('bookid').val,bookname:$('bookname').val(),price:$('price').val()}
+				let ajaxparameters = {
+					data : input ,
+					url: 'http://localhost:90/getdetails',
+					type: 'get',
+					datatype: 'json',
+					success:(datafromserver)=> {
+						if(datafromserver.status === true){
+							console.log("updated") ;
+							$('msg').text("update sucessfull");
+						}
+						else{
+							console.log(" not updated") ;
+							$('msg').text("update un sucessfull");
+						}
+					},
+					error:(errorfromserver)=>{
+						console.log(errorfromserver);
+						$('msg').text("error");
+					}
+
+				}
+				$.ajax(parameters);			
+			});
+		})
+	</script>
+</head>
+<body>
+	<form action ="poc2" method="post">
+		<br />bookid <input type="text" name="book_id" />
+		<br />bookname <input type="text" name="bookname" />
+		<br />price <input type="text" name="bookname" />
+		<input type="submit" value="addbook" />
+
+	</form>
+</body>
+<body>
+	<input type="text" id="t1" placeholder="Bookid">
+	<br><br>
+	<input type="text" id="t1" placeholder="Bookid">
+	<br><br>
+	<input type="text" id="t1" placeholder="Bookid">
+	<br><br>
+	<button id="b1">Update Book</button>
+
+</body>
+</html>
